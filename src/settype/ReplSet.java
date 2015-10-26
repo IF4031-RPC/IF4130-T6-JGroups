@@ -59,8 +59,11 @@ public class ReplSet <T>extends ReceiverAdapter{
     public void receive(Message msg) {
         String line= msg.getObject().toString();
 //        T obj = msg.getSrc() + msg.getObject();
-        System.out.println(line);
+        
         String splitMessage[] = line.split(" ", 3);
+        
+        if(!splitMessage[0].equals("[" + user_name + "]"))
+            System.out.println(line);
         
         if(splitMessage.length == 3)
         {
@@ -68,13 +71,23 @@ public class ReplSet <T>extends ReceiverAdapter{
             switch(splitMessage[1].toLowerCase())
             {
                 case "/add":
-                    this.add(obj);
+                    if(this.add(obj))
+                        System.out.println("\"" + obj.toString() + "\" berhasil ditambahkan.");
+                    else
+                        System.out.println("\"" + obj.toString() + " tidak berhasil ditambahkan.");
                     break;
                 case "/contains":
-                    System.out.println(this.contains(obj));
+                    if(this.contains(obj))
+                        System.out.println("\"" + obj.toString() + "\" ada di dalam set.");
+                    else
+                        System.out.println("\"" + obj.toString() + "\" tidak ada di dalam set.");
                     break;
                 case "/remove":
-                    this.remove(obj);
+                    if(this.remove(obj))
+                        System.out.println("\"" + obj.toString() + "\" berhasil dihapus dari set.");
+                    else
+                        System.out.println("\""+ obj.toString() + "\" tidak ditemukan di dalam set.");
+                    break;
                 default:
                     System.out.println("Invalid Command");
             }
