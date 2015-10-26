@@ -60,22 +60,28 @@ public class ReplSet <T>extends ReceiverAdapter{
         String line= msg.getObject().toString();
 //        T obj = msg.getSrc() + msg.getObject();
         System.out.println(line);
-        String splitMessage[] = line.split(" ");
+        String splitMessage[] = line.split(" ", 3);
         
-        System.out.println(splitMessage[0]);
-        System.out.println(splitMessage[1]);
-        System.out.println(splitMessage[2]);
-        
-        T obj = (T)splitMessage[2];
-        switch(splitMessage[1].toLowerCase())
+        if(splitMessage.length == 3)
         {
-            case "/add":
+            T obj = (T)splitMessage[2];
+            switch(splitMessage[1].toLowerCase())
+            {
+                case "/add":
                     this.add(obj);
-                break;
-            default:
-//                synchronized(state){
-                    this.add(obj);
-//                }
+                    break;
+                case "/contains":
+                    System.out.println(this.contains(obj));
+                    break;
+                case "/remove":
+                    this.remove(obj);
+                default:
+                    System.out.println("Invalid Command");
+            }
+        }
+        else
+        {
+            System.out.println("Invalid Format");
         }
     }
 
@@ -92,7 +98,7 @@ public class ReplSet <T>extends ReceiverAdapter{
             state.addAll(list);
         }
         
-        System.out.println("Ada (" + list.size() + " data di dalam set):");
+        System.out.println("Ada " + list.size() + " data di dalam set:");
         for(T str: list) {
             System.out.println(str.toString());
         }
@@ -121,23 +127,6 @@ public class ReplSet <T>extends ReceiverAdapter{
                     break;
                 }
                 line="[" + user_name + "] " + line;
-                
-//                String splitMessage[] = line.split(" ");
-//                String obj = splitMessage[2];
-//                switch(splitMessage[2].toLowerCase())
-//                {
-//                    case "/add":
-//                        synchronized(state){
-//                            newSet.add(obj);
-//                        }
-//                        break;
-//                    default:
-//                        synchronized(state){
-//                            newSet.add(obj);
-//                        }
-//                }
-                
-                
                 
                 Message msg=new Message(null, null, line);
                 channel.send(msg);
