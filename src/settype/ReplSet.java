@@ -136,7 +136,7 @@ public class ReplSet <T>extends ReceiverAdapter{
             try {
                 System.out.print("> "); System.out.flush();
                 String line=in.readLine().toLowerCase();
-                if(line.startsWith("quit") || line.startsWith("exit")) {
+                if(line.startsWith("/quit") || line.startsWith("/exit")) {
                     break;
                 }
                 line="[" + user_name + "] " + line;

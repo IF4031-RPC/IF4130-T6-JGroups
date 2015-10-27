@@ -108,7 +108,7 @@ public class ReplStack<T> extends ReceiverAdapter {
             try {
                 System.out.print("> "); System.out.flush();
                 String line=in.readLine().toLowerCase();
-                if(line.startsWith("quit") || line.startsWith("exit")) {
+                if(line.startsWith("/quit") || line.startsWith("/exit")) {
                     break;
                 }
                 Message msg=new Message(null, null, line);
